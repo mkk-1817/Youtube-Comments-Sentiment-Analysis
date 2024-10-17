@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Comments Analysis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Comments Analysis Result</h1>
+        
+        <h2>Word Cloud</h2>
+        <img src="data:image/png;base64,{{ wordcloud_img }}" alt="Word Cloud">
+        
+        <h2>Keyword Search</h2>
+        <form action="/search" method="post">
+            <input type="hidden" name="video_url" value="{{ video_url }}">
+            <input type="text" name="keyword" placeholder="Enter keyword">
+            <input type="submit" value="Search">
+        </form>
+        <p>Keyword "{{ keyword }}" found {{ keyword_frequency }} times.</p>
+        
+        <h2>Top 5 Positive Comments</h2>
+        <div class="comment-container">
+            {% for comment in top_positive_comments %}
+                <div class="comment positive-comment">
+                    {{ comment }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <h2>Top 5 Negative Comments</h2>
+        <div class="comment-container">
+            {% for comment in top_negative_comments %}
+                <div class="comment negative-comment">
+                    {{ comment }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <h2>Classification Report</h2>
+        <pre>{{ classification_report }}</pre>
+        
+        <h2>All Comments</h2>
+        {{ comments | safe }}
+    </div>
+</body>
+</html>
